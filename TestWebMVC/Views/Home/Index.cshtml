@@ -1,0 +1,40 @@
+﻿@model IEnumerable<TestWebMVC.Models.Values>;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<button class="b1">Ajax</button>
+
+<pre id="p1"></pre>
+
+@foreach (var value in Model)
+{
+    <h2>Id: @value.Id, Value: @value.Value</h2>
+}
+
+@section scripts{
+    <script src="~/lib/myJs/Ajax.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var urlP = "api/values"
+            myAjax = new MyAjax(urlP);
+            $(".b1").on("click", function () { myAjax.getAjax() });
+        });
+        function resultGetAjax(result) { //interface
+            var p1 = document.getElementById("p1");
+            p1.innerHTML = "";
+            for (var i = 0; i < result.length; i++) {
+                p1.innerHTML += "Id: " + result[i].id + ", Value" + result[i].value + "\n";
+            }
+            
+            console.log(result);
+        }
+    </script>
+}
